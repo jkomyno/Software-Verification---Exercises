@@ -3,7 +3,7 @@
 \usepackage{amsmath,amssymb} % for curved letters (\mathcal)
 \usepackage{stmaryrd}        % for double brackets
 \usepackage{tabularx}        % for aligning the table
-
+\usepackage{empheq}
 
 \title{Software Verification - Exercises}
 \author{Alberto Schiabel}
@@ -76,6 +76,25 @@ given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbrack
 
 \noindent \textbf{The case} $\mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s - \mathcal{A}\llbracket a_1 \rrbracket s$:
 given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that subtraction is a total function in the \textbf{Z} domain, then by structural induction, the subtraction of arithmetic expressions is a total function.
+
+
+% n \in \textit{Num}
+% x \in \textit{Var}
+% a \in \textit{Aexp}
+\begin{table}[ht!]
+ \centering
+     \setlength{\tabcolsep}{1em} % for the horizontal padding
+    \begin{tabular}{|p{\textwidth}|}
+    \hline
+    $\begin{aligned}[t] % placement: default is "center", options are "top" and "bottom"
+    \mathcal{B}\llbracket true \rrbracket s = \textbf{tt} \\
+    \mathcal{B}\llbracket false \rrbracket s = \textbf{ff} \\
+    \mathcal{B}\llbracket a_1 = a_2 \rrbracket s =
+    \end{aligned}$ \\
+    \hline
+    \end{tabular}
+    \caption{The semantics of boolean expressions}
+\end{table}
 
 
 \end{document}
