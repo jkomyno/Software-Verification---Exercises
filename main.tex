@@ -71,4 +71,11 @@ such that $\mathcal{A}\llbracket x \rrbracket s = s x$. \\
 \noindent \textbf{The case} $\mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s + \mathcal{A}\llbracket a_1 \rrbracket s$:
 given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that addition is a total function in the \textbf{Z} domain, then by structural induction, the sum of arithmetic expressions is a total function.
 
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 * a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s * \mathcal{A}\llbracket a_1 \rrbracket s$:
+given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that multiplication is a total function in the \textbf{Z} domain, then by structural induction, the multiplication of arithmetic expressions is a total function.
+
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s - \mathcal{A}\llbracket a_1 \rrbracket s$:
+given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that subtraction is a total function in the \textbf{Z} domain, then by structural induction, the subtraction of arithmetic expressions is a total function.
+
+
 \end{document}
