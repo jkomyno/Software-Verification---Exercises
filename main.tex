@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb} % for curved letters (\mathcal)
+\usepackage{stmaryrd}        % for double brackets
+\usepackage{tabularx}        % for aligning the table
+
+
+\title{Software Verification - Exercises}
+\author{Alberto Schiabel}
+\date{October 2019}
+
+\begin{document}
+
+\maketitle
+
+% n \in \textit{Num}
+% x \in \textit{Var}
+% a \in \textit{Aexp}
+\begin{table}[ht!]
+ \centering
+     \setlength{\tabcolsep}{1em} % for the horizontal padding
+    \begin{tabular}{|p{\textwidth}|}
+    \hline
+    $\begin{aligned}[t] % placement: default is "center", options are "top" and "bottom"
+    \mathcal{A}\llbracket n \rrbracket s = \mathcal{N} \llbracket n \rrbracket \\
+    \mathcal{A}\llbracket x \rrbracket s = s x \\
+    \mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s + \mathcal{A} \llbracket a_2 \rrbracket s \\
+    \mathcal{A}\llbracket a_1 * a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s * \mathcal{A} \llbracket a_2 \rrbracket s \\
+    \mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s - \mathcal{A} \llbracket a_2 \rrbracket s \\
+    \end{aligned}$ \\
+    \hline
+    \end{tabular}
+    \caption{The semantics of arithmetic expressions}
+\end{table}
+
+
+\section{Exercise 1.7}
+
+Prove that the equations of Table 1.1 define a total function $\mathcal{A} \in \textbf{Aexp} \rightarrow
+(\textbf{State} \rightarrow \textbf{Z})$: First argue that it is sufficient to prove that for each $a \in \textbf{Aexp}$
+and each $s \in \textbf{State}$ there is exactly one value $v \in \textbf{Z}$ such that $\mathcal{A}\llbracket a \rrbracket s = \textbf{v}$.
+Next use structural induction on the arithmetic expressions to prove that this is indeed the case.
+
+\subsection{Demonstration by Structural Induction}
+
+% a ::= n | x | a1 + a2 | a1 ⋆ a2 | a1 − a2
+
+The above equations for $\mathcal{A}$ define a total function $\mathcal{A}: Aexp \rightarrow (State \rightarrow Z)$. \\
+
+\noindent \textbf{Proof}: We have a total function $\mathcal A$, if for all arguments $a \in Aexp$
+
+\begin{equation}
+  \tag{*}
+  there is exactly one number n \in \textbf{Z} such that \mathcal{A} \llbracket 
+  \label{eqn:Stokes}
+\end{equation}
+
+Given an expression $a$ it can have one of 5 forms: it can be a basis element and then it is equal to the numeral $n$ or the variable $x$, or it can be a composite element and then it is equal to either the sum, the multiplication or the subtractions between two expressions $a_1$ and $a_2$. In order to prove (*), we have to consider all five possibilities.
+
+The proof will be conducted by \textit{induction} over the \textit{structure} of the expression \textit{a}. In the base case we prove (*) for the basis elements of \textbf{Aexp},
+that is for the cases where $a$ is a numeral $n$ or a variable $x$. In the \textit{induction step} we consider the composite elements of \textbf{Aexp}.
+The induction hypothesis will then allow us to assume that (*) holds for the immediate constituents of $a$, which are $a_1$ and $a_2$. We shall then prove that (*) holds for $a$.
+It then follows that (*) holds for all arithmetic expressions $a$ because any arithmetic expression $a$ can be constructed in that way. \\
+
+\noindent \textbf{The case} $\mathcal{A}\llbracket n \rrbracket s = \mathcal{N} \llbracket n \rrbracket$: given that $n \in Num$ and that $\mathcal{N}$ is a total function for all arguments $n \in Num$, there is exactly one number \textbf{n} in \textbf{Z}
+such that $\mathcal{A}\llbracket n \rrbracket s = \mathcal{N} \llbracket n \rrbracket$. \\
+
+\noindent \textbf{The case} $\mathcal{A}\llbracket x \rrbracket s = s x$: given that $x \in Var$ and that the state lookup function is a total function for all arguments $x \in Var$ by definition, there is exactly one variable \textbf{x} in \textbf{Var}
+such that $\mathcal{A}\llbracket x \rrbracket s = s x$. \\
+
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s + \mathcal{A}\llbracket a_1 \rrbracket s$:
+given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that addition is a total function in the \textbf{Z} domain, then by structural induction, the sum of arithmetic expressions is a total function.
+
+\end{document}
