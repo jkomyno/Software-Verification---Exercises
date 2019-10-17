@@ -1,9 +1,14 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb} % for curved letters (\mathcal)
 \usepackage{stmaryrd}        % for double brackets
 \usepackage{tabularx}        % for aligning the table
 \usepackage{empheq}
+\usepackage{amsmath}         % math features.
+\usepackage{amsthm}          % math theorems.
+\usepackage{amssymb}         % math symbols.
+\usepackage{amsbsy}             % math bold.
+\usepackage{tcolorbox}
+\usepackage{float}
 
 \title{Software Verification - Exercises}
 \author{Alberto Schiabel}
@@ -13,49 +18,46 @@
 
 \maketitle
 
-% n \in \textit{Num}
-% x \in \textit{Var}
-% a \in \textit{Aexp}
-\begin{table}[ht!]
- \centering
-     \setlength{\tabcolsep}{1em} % for the horizontal padding
-    \begin{tabular}{|p{\textwidth}|}
-    \hline
-    $\begin{aligned}[t] % placement: default is "center", options are "top" and "bottom"
-    \mathcal{A}\llbracket n \rrbracket s = \mathcal{N} \llbracket n \rrbracket \\
-    \mathcal{A}\llbracket x \rrbracket s = s x \\
-    \mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s + \mathcal{A} \llbracket a_2 \rrbracket s \\
-    \mathcal{A}\llbracket a_1 * a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s * \mathcal{A} \llbracket a_2 \rrbracket s \\
-    \mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A} \llbracket a_1 \rrbracket s - \mathcal{A} \llbracket a_2 \rrbracket s \\
-    \end{aligned}$ \\
-    \hline
-    \end{tabular}
-    \caption{The semantics of arithmetic expressions}
-\end{table}
-
-
 \section{Exercise 1.7}
 
-Prove that the equations of Table 1.1 define a total function $\mathcal{A} \in \textbf{Aexp} \rightarrow
+\begin{figure}[H]
+    \begin{tcolorbox}[colframe=black, colback=white, sharp corners]
+
+        \begin{equation}
+        \begin{split}
+        \mathcal{A}\llbracket n \rrbracket s &= \mathcal{N} \llbracket n \rrbracket \\
+        \mathcal{A}\llbracket x \rrbracket s &= s x \\
+        \mathcal{A}\llbracket a_1 + a_2 \rrbracket s &= \mathcal{A} \llbracket a_1 \rrbracket s + \mathcal{A} \llbracket a_2 \rrbracket s \\
+        \mathcal{A}\llbracket a_1 * a_2 \rrbracket s &= \mathcal{A} \llbracket a_1 \rrbracket s * \mathcal{A} \llbracket a_2 \rrbracket s \\
+        \mathcal{A}\llbracket a_1 - a_2 \rrbracket s &= \mathcal{A} \llbracket a_1 \rrbracket s - \mathcal{A} \llbracket a_2 \rrbracket s \\
+        \end{split}
+        \end{equation}
+
+    \end{tcolorbox}
+    \caption{The semantics of arithmetic expressions}
+    \label{fig:aexp}
+\end{figure}
+
+Prove that the equations of Figure \ref{fig:aexp} define a total function $\mathcal{A} \in \textbf{Aexp} \rightarrow
 (\textbf{State} \rightarrow \textbf{Z})$: First argue that it is sufficient to prove that for each $a \in \textbf{Aexp}$
 and each $s \in \textbf{State}$ there is exactly one value $v \in \textbf{Z}$ such that $\mathcal{A}\llbracket a \rrbracket s = \textbf{v}$.
 Next use structural induction on the arithmetic expressions to prove that this is indeed the case.
 
-\subsection{Demonstration by Structural Induction}
+\paragraph{Demonstration by Structural Induction}\mbox{} \\
 
 % a ::= n | x | a1 + a2 | a1 ⋆ a2 | a1 − a2
 
 The above equations for $\mathcal{A}$ define a total function $\mathcal{A}: Aexp \rightarrow (State \rightarrow Z)$. \\
 
 \noindent \textbf{Proof}: We have a total function $\mathcal A$, if for all arguments $a \in Aexp$
-
 \begin{equation}
-  \tag{*}
-  there is exactly one number n \in \textbf{Z} such that \mathcal{A} \llbracket 
-  \label{eqn:Stokes}
+\tag{*}
+\begin{split}
+there\ is\ exactly\ one\ number\ n\ \in \textbf{Z}\ such\ that\ \mathcal{A} \llbracket a \rrbracket s = n.
+\end{split}
 \end{equation}
 
-Given an expression $a$ it can have one of 5 forms: it can be a basis element and then it is equal to the numeral $n$ or the variable $x$, or it can be a composite element and then it is equal to either the sum, the multiplication or the subtractions between two expressions $a_1$ and $a_2$. In order to prove (*), we have to consider all five possibilities.
+\noindent Given an expression $a$ it can have one of 5 forms: it can be a basis element and then it is equal to the numeral $n$ or the variable $x$, or it can be a composite element and then it is equal to either the sum, the multiplication or the subtractions between two expressions $a_1$ and $a_2$. In order to prove (*), we have to consider all five possibilities.
 
 The proof will be conducted by \textit{induction} over the \textit{structure} of the expression \textit{a}. In the base case we prove (*) for the basis elements of \textbf{Aexp},
 that is for the cases where $a$ is a numeral $n$ or a variable $x$. In the \textit{induction step} we consider the composite elements of \textbf{Aexp}.
@@ -68,33 +70,69 @@ such that $\mathcal{A}\llbracket n \rrbracket s = \mathcal{N} \llbracket n \rrbr
 \noindent \textbf{The case} $\mathcal{A}\llbracket x \rrbracket s = s x$: given that $x \in Var$ and that the state lookup function is a total function for all arguments $x \in Var$ by definition, there is exactly one variable \textbf{x} in \textbf{Var}
 such that $\mathcal{A}\llbracket x \rrbracket s = s x$. \\
 
-\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s + \mathcal{A}\llbracket a_1 \rrbracket s$:
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 + a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s + \mathcal{A}\llbracket a_2 \rrbracket s$:
 given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that addition is a total function in the \textbf{Z} domain, then by structural induction, the sum of arithmetic expressions is a total function.
 
-\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 * a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s * \mathcal{A}\llbracket a_1 \rrbracket s$:
-given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that multiplication is a total function in the \textbf{Z} domain, then by structural induction, the multiplication of arithmetic expressions is a total function.
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 * a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s * \mathcal{A}\llbracket a_2 \rrbracket s$:
+given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that multiplication is a total function in the \textbf{Z} domain, then by structural induction, the multiplication of arithmetic expressions is a total function. \\
 
-\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s - \mathcal{A}\llbracket a_1 \rrbracket s$:
-given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that subtraction is a total function in the \textbf{Z} domain, then by structural induction, the subtraction of arithmetic expressions is a total function.
+\noindent \textbf{The case} $\mathcal{A}\llbracket a_1 - a_2 \rrbracket s = \mathcal{A}\llbracket a_1 \rrbracket s - \mathcal{A}\llbracket a_2 \rrbracket s$:
+given that for $\mathcal{A}\llbracket a_1 \rrbracket s$ and $\mathcal{A}\llbracket a_2 \rrbracket s$ the inductive hypothesis holds, and that subtraction is a total function in the \textbf{Z} domain, then by structural induction, the subtraction of arithmetic expressions is a total function. \\
 
+\section{Exercise 1.8}
 
 % n \in \textit{Num}
 % x \in \textit{Var}
 % a \in \textit{Aexp}
-\begin{table}[ht!]
- \centering
-     \setlength{\tabcolsep}{1em} % for the horizontal padding
-    \begin{tabular}{|p{\textwidth}|}
-    \hline
-    $\begin{aligned}[t] % placement: default is "center", options are "top" and "bottom"
-    \mathcal{B}\llbracket true \rrbracket s = \textbf{tt} \\
-    \mathcal{B}\llbracket false \rrbracket s = \textbf{ff} \\
-    \mathcal{B}\llbracket a_1 = a_2 \rrbracket s =
-    \end{aligned}$ \\
-    \hline
-    \end{tabular}
-    \caption{The semantics of boolean expressions}
-\end{table}
+\begin{figure}[H]
+    \begin{tcolorbox}[colframe=black, colback=white, sharp corners]
 
+        \begin{equation}
+        \begin{split}
+        \mathcal{B}\llbracket true \rrbracket s &= \textbf{tt} \\
+        \mathcal{B}\llbracket false \rrbracket s &= \textbf{ff} \\
+        \mathcal{B}\llbracket a_1 = a_2 \rrbracket s &= \begin{cases}
+              \textbf{tt} & \text{if } \mathcal{A}\llbracket a_1 \rrbracket s = \mathcal{A}\llbracket a_2 \rrbracket s \\
+              \textbf{ff} & \text{if } \mathcal{A}\llbracket a_1 \rrbracket s \neq \mathcal{A}\llbracket a_2 \rrbracket s
+            \end{cases}  \\
+        \mathcal{B}\llbracket a_1 \leq a_2 \rrbracket s &= \begin{cases}
+              \textbf{tt} & \text{if } \mathcal{A}\llbracket a_1 \rrbracket s \leq \mathcal{A}\llbracket a_2 \rrbracket s \\
+              \textbf{ff} & \text{if } \mathcal{A}\llbracket a_1 \rrbracket s \nleq \mathcal{A}\llbracket a_2 \rrbracket s
+            \end{cases}  \\
+        \mathcal{B}\llbracket \neg{b} \rrbracket s &= \begin{cases}
+              \textbf{tt} & \text{if } \mathcal{B}\llbracket b \rrbracket s = \textbf{ff} \\
+              \textbf{ff} & \text{if } \mathcal{B}\llbracket b \rrbracket s = \textbf{tt} \\
+            \end{cases}  \\
+        \mathcal{B}\llbracket b_1 \wedge b_2 \rrbracket s &= \begin{cases}
+              \textbf{tt} & \text{if } \mathcal{B}\llbracket b_1 \rrbracket s = \textbf{tt} \text{ and } \mathcal{B}\llbracket b_2 \rrbracket s = \textbf{tt} \\
+              \textbf{ff} & \text{if } \mathcal{B}\llbracket b_1 \rrbracket s = \textbf{ff} \text{ or } \mathcal{B}\llbracket b_2 \rrbracket s = \textbf{ff} \\
+            \end{cases} \\
+        \end{split}
+        \end{equation}
+    \end{tcolorbox}
+    \caption{The semantics of boolean expressions}
+    \label{fig:bexp}
+\end{figure}
+
+Prove that the equations of Figure \ref{fig:bexp} define a total function $\mathcal{B} \in \textbf{Bexp} \rightarrow
+(\textbf{State} \rightarrow \textbf{T})$.
+
+\paragraph{Demonstration by Structural Induction}\mbox{} \\
+
+% a ::= n | x | a1 + a2 | a1 ⋆ a2 | a1 − a2
+
+The above equations for $\mathcal{B}$ define a total function $\mathcal{B}: Bexp \rightarrow (State \rightarrow T)$. \\
+
+\noindent \textbf{Proof}: We have a total function $\mathcal B$, if for all arguments $b \in Bexp$
+\begin{equation}
+\tag{*}
+\begin{split}
+there\ is\ exactly\ one\ boolean\ value\ b\ \in \{ \textbf{tt}, \textbf{ff} \} such\ that\ \mathcal{B} \llbracket b \rrbracket s = b.
+\end{split}
+\end{equation}
+
+\section{Exercise 1.13}
+
+Prove that $ \mathcal{A} \llbracket a [ y \mapsto a_0 ] \rrbracket s = \mathcal{A} \llbracket a \rrbracket ( s [ y \mapsto \mathcal{A} \llbracket a_0 \rrbracket s ]) $.
 
 \end{document}
